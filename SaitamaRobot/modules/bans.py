@@ -27,6 +27,8 @@ def ban(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
+    if message.reply_to_message:
+       is_reply = True
     log_message = ""
     bot = context.bot
     args = context.args
@@ -82,7 +84,8 @@ def ban(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
-
+    if is_reply is True:
+         message.reply_to_message.delete()
     try:
         chat.kick_member(user_id)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
