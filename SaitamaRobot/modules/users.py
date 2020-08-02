@@ -64,7 +64,7 @@ def broadcast(update: Update, context: CallbackContext):
         users = get_all_users()
         failed = 0
         failed_user = 0
-        if to_group:
+        if to_group is True:
             for chat in chats:
                 try:
                     context.bot.sendMessage(int(chat.chat_id), to_send[1])
@@ -74,7 +74,7 @@ def broadcast(update: Update, context: CallbackContext):
                     LOGGER.warning(
                         "Couldn't send broadcast to %s, group name %s",
                         str(chat.chat_id), str(chat.chat_name))
-        if to_user:
+        if to_user is True:
             for user in users:
                 try:
                     context.bot.sendMessage(int(user.user_id), to_send[1])
