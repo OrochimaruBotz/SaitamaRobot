@@ -47,10 +47,10 @@ VERIFIED_USER_WAITLIST = {}
 # do not async
 def send(update, message, keyboard, backup_message):
     chat = update.effective_chat
-    cleanserv = sql.clean_service(chat.id)
+    cleanserv = 1
     reply = update.message.message_id
     # Clean service welcome
-    if cleanserv:
+    if cleanserv == 1:
         try:
             dispatcher.bot.delete_message(chat.id, update.message.message_id)
         except BadRequest:
@@ -132,9 +132,9 @@ def new_member(update: Update, context: CallbackContext):
         if should_welc:
 
             reply = update.message.message_id
-            cleanserv = sql.clean_service(chat.id)
+            cleanserv = 1
             # Clean service welcome
-            if cleanserv:
+            if cleanserv == 1:
                 try:
                     dispatcher.bot.delete_message(chat.id,
                                                   update.message.message_id)
@@ -366,9 +366,9 @@ def left_member(update: Update, context: CallbackContext):
 
     if should_goodbye:
         reply = update.message.message_id
-        cleanserv = sql.clean_service(chat.id)
+        cleanserv = 1
         # Clean service welcome
-        if cleanserv:
+        if cleanserv == 1:
             try:
                 dispatcher.bot.delete_message(chat.id,
                                               update.message.message_id)
@@ -733,11 +733,11 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
         if len(args) >= 1:
             var = args[0]
             if var in ('no', 'off'):
-                sql.set_clean_service(chat.id, False)
+                #sql.set_clean_service(chat.id, False)
                 update.effective_message.reply_text(
                     'Welcome clean service is : off')
             elif var in ('yes', 'on'):
-                sql.set_clean_service(chat.id, True)
+                #sql.set_clean_service(chat.id, True)
                 update.effective_message.reply_text(
                     'Welcome clean service is : on')
             else:
