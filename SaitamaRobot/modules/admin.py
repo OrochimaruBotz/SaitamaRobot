@@ -18,6 +18,7 @@ from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
 from SaitamaRobot.saitamabot import saitama
 from telethon.errors import (PhotoCropSizeSmallError, ImageProcessFailedError)
 from telethon.tl.functions.channels import EditPhotoRequest
+from telethon.tl.types import MessageMediaPhoto
 
 @saitama(pattern="^/setgpic$")
 async def _(event):
