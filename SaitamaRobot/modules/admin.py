@@ -31,7 +31,7 @@ async def _(event):
     admin = chat.admin_rights
     photo = None
     if not admin:
-        await event.edit("I am not an admin here")
+        await event.reply("I am not an admin here")
         return
         
     if not await user_is_admin(user_id=event.from_id, message=event):
