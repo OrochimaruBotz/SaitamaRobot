@@ -1,4 +1,5 @@
 import html
+import os
 
 from SaitamaRobot import SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -55,7 +56,7 @@ async def _(event):
                 EditPhotoRequest(event.chat_id, await
                                  event.client.upload_file(photo)))
             await event.reply("Group profile photo is successfully updated")
-
+            os.remove(photo)
         except PhotoCropSizeSmallError:
             await event.edit("The image is too small")
         except ImageProcessFailedError:
