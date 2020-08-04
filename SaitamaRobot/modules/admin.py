@@ -14,53 +14,6 @@ from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
-from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
-    can_delete_messages, user_is_admin, haruka_is_admin, can_change_info)
-from SaitamaRobot.saitamabot import saitama
-from telethon.errors import (PhotoCropSizeSmallError, ImageProcessFailedError)
-from telethon.tl.functions.channels import EditPhotoRequest
-from telethon.tl.types import MessageMediaPhoto
-
-@saitama(pattern="^/setgpic$")
-async def _(event):
-    if not event.is_group:
-        await event.reply("`I don't think this is a group.`")
-        return
-    replymsg = await event.get_reply_message()
-    chat = await event.get_chat()
-    admin = chat.admin_rights
-    photo = None
-    if not admin:
-        await event.reply("I am not an admin here")
-        return
-        
-    if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("Only Admins are allowed to use this command")
-        return
-        
-    if not await can_change_info(message=event):
-        await event.reply("Seems like I don't have permission to change group info")
-        return
-
-    if replymsg and replymsg.media:
-        if isinstance(replymsg.media, MessageMediaPhoto):
-            photo = await event.client.download_media(message=replymsg.photo)
-        elif "image" in replymsg.media.document.mime_type.split('/'):
-            photo = await event.client.download_file(replymsg.media.document)
-        else:
-            await event.reply("The media is of unsupported format")
-
-    if photo:
-        try:
-            await event.client(
-                EditPhotoRequest(event.chat_id, await
-                                 event.client.upload_file(photo)))
-            await event.reply("Group profile photo is successfully updated")
-            os.remove(photo)
-        except PhotoCropSizeSmallError:
-            await event.edit("The image is too small")
-        except ImageProcessFailedError:
-            await event.edit("Failed to change group profile picture.")
 
 @run_async
 @connection_status
